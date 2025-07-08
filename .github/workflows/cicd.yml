@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: action/scheckout@v3
+      - uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -17,7 +17,7 @@ jobs:
           node-version: "16"
 
       - name: Install dependencies
-        run: npm Install
+        run: npm install
 
       - name: Build
         run: npm run build
@@ -25,7 +25,7 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Send email notification if build fail
+      - name: Send email notification if build fails
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
@@ -35,11 +35,11 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: GitHub Actions - Build Failure
           body: |
-            The recen build has failed.
+            The recent build has failed.
 
-            - Repository: ${{github.repository}}
-            - Workflow: ${{github.workflow}}
-            - PR Link: ${{github.event.pull_request.html_url}}
+            - Repository: ${{ github.repository }}
+            - Workflow: ${{ github.workflow }}
+            - PR Link: ${{ github.event.pull_request.html_url }}
 
             Please check the details in the GitHub Actions logs.
 
